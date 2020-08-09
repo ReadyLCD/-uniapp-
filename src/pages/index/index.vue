@@ -23,12 +23,13 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	.content {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		background-color: $uni-color-error;
 	}
 
 	.logo {
