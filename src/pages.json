@@ -26,10 +26,10 @@
 		}
 	],
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
+		"navigationBarTextStyle": "light",
 		"navigationBarTitleText": "婕拉购",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarBackgroundColor": "#eb4450",
+		"backgroundColor": "white"
 	},
 	"tabBar": {
 		"color": "#333",

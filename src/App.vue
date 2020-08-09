@@ -16,4 +16,8 @@ export default {
 /* 全局引入字体图标 */
 @import "styles/iconfont.wxss";
 /*每个页面公共css */
+image {
+  width: 100%;
+  display: block;
+}
 </style>
