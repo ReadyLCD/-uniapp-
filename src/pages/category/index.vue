@@ -1,6 +1,6 @@
 <template>
   <view class="content">
-    <text class="iconfont icon-shoucang1"></text>首页
+    <text class="iconfont icon-shoucang1"></text>分类
   </view>
 </template>
 
