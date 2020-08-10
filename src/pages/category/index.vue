@@ -21,7 +21,11 @@
           <view class="product-title">/ {{item.cat_name}} /</view>
           <!-- 产品列 -->
           <view class="product-list">
-            <navigator v-for="item2 in item.children" :key="item2.cat_id">
+            <navigator 
+            v-for="item2 in item.children" 
+            :key="item2.cat_id"
+            :url="`/pages/goods_list/index?id=${item2.cat_id}`" 
+            >
               <!-- <image :src="item2.cat_icon" mode="widthFix"></image> -->
               <image :src="item2.cat_icon"></image>
               <text>{{item2.cat_name}}</text>
@@ -106,12 +110,10 @@ export default {
   height: 100vh;
   .main {
     flex: 1;
-    // background-color: aqua;
     display: flex;
     overflow: hidden;
     .main-slider {
       width: 180rpx;
-      // background-color: yellow;
       overflow: auto;
       .item {
         display: flex;
@@ -127,8 +129,6 @@ export default {
     }
     .main-product {
       flex: 1;
-      // background-color: yellowgreen;
-      // overflow: auto;
       .product-item {
         .product-title {
           display: flex;
