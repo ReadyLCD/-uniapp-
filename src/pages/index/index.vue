@@ -45,19 +45,20 @@ export default {
       categoryList:[]
     };
   },
-  onLoad() {
-    this.getSlideList();
-    this.getGuideList();
-    this.getCategoryList();
+  async onLoad() {
+    uni.showLoading({
+      title:"加载中",
+      mask:true
+    })
+
+    Promise.all([this.getSlideList(),this.getGuideList(),this.getCategoryList()]).then(()=>{
+      uni.hideLoading();
+    })
   },
   methods: {
-    // 获取轮播图数据
+    // 获取轮播图数据 返回值都是promise
     getSlideList() {
-      uni
-        .request({
-          url:
-            "https://api-hmugo-web.itheima.net/api/public/v1/home/swiperdata",
-        })
+     return uni.request({url:"https://api-hmugo-web.itheima.net/api/public/v1/home/swiperdata"})
         .then((res) => {
           // console.log(res);
           this.slideList = res[1].data.message;
@@ -65,7 +66,7 @@ export default {
     },
     // 获取导航菜单数据
     getGuideList() {
-      uni.request({url:"https://api-hmugo-web.itheima.net/api/public/v1/home/catitems"})
+     return uni.request({url:"https://api-hmugo-web.itheima.net/api/public/v1/home/catitems"})
       .then(res=>{
         // console.log(res);
         this.guideList = res[1].data.message;
@@ -73,9 +74,9 @@ export default {
     },
     // 获取分类栏目数据
     getCategoryList() {
-       uni.request({url:"https://api-hmugo-web.itheima.net/api/public/v1/home/floordata"})
+      return uni.request({url:"https://api-hmugo-web.itheima.net/api/public/v1/home/floordata"})
        .then(res=>{
-         console.log(res);
+        //  console.log(res);
          this.categoryList = res[1].data.message;
        })
     }
