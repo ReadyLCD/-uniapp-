@@ -33,9 +33,15 @@
         <!-- 综合 -->
         <swiper-item>
           <!-- @scrolltoupper="scrollTop" -->
+          <!-- :url="'pages/goods_detail/index?id='+item.goods_id" -->
           <scroll-view scroll-y :refresher-triggered="isflag" refresher-enabled @refresherrefresh="scrollTop" @scrolltolower="scrollBottom" class="scroll-box"> 
             <!-- 列表 -->
-            <navigator v-for="(item,index) in totalList" :key="item.goods_id" :data-num="index">
+            <navigator 
+            v-for="(item,index) in totalList" 
+            :key="item.goods_id" 
+            :data-num="index"
+            :url="`/pages/goods_detail/index?id=${item.goods_id}`"
+            >
               <view class="goods_img">
                 <image :src="item.goods_small_logo||'https://ww1.sinaimg.cn/large/007rAy9hgy1g24by9t530j30i20i2glm.jpg'" class="logo" mode="widthFix"></image>
               </view>
@@ -81,7 +87,7 @@ export default {
     };
   },
   onLoad(options) {
-    console.log(options);
+    // console.log(options);
     let cid = options.id || 5;
     this.params.cid = cid;
     this.getTotalList();
@@ -105,7 +111,7 @@ export default {
           data: this.params,
         })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           let newTotalList = res[1].data.message.goods
           // 判断如果是下拉的话
           if(!isflag) {
@@ -138,7 +144,7 @@ export default {
       // 这里的业务要求是实现上拉加载数据
       this.params.pagenum++;
       this.pageNum = await this.getTotalList();
-      console.log(this.pageNum);
+      // console.log(this.pageNum);
       if(this.params.pagenum > this.pageNum) {
          uni.showToast({
            title:"商品到底了啦...",

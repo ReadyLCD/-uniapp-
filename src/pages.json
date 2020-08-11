@@ -19,6 +19,12 @@
 			}
 		},
 		{
+			"path": "pages/goods_detail/index",
+			"style": {
+				"navigationBarTitleText": "商品详情"
+			}
+		},
+		{
 			"path": "pages/cart/index",
 			"style": {
 				"navigationBarTitleText": "购物车"
