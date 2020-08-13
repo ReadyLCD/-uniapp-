@@ -58,32 +58,27 @@ export default {
     };
   },
   onLoad() {
-    // this.getCategoryList();
+    this.getCategoryList();
     // 页面一加载就判断本地存储中是否已经有数据了，没有的话需要重新发送请求获取数据
     let data = uni.getStorageSync("categoryList");
-    if(Date.now()-data.time>60*1000) {
+    if(!data) {
       this.getCategoryList();
-    } else {
-      categoryList = data.categoryList;
-      this.sliderList = categoryList.map((item) => item.cat_name);
-      this.productList = categoryList[0].children;
-    }
+    } else if(Date.now()-data.time>60*1000) {
+      this.getCategoryList();
+    } 
   },
   methods: {
     // 获取分类数据
     getCategoryList() {
-      uni
-        .request({
-          url: "https://api-hmugo-web.itheima.net/api/public/v1/categories",
-        })
-        .then((res) => {
-          console.log(res);
-          categoryList = res[1].data.message;
-          // 因为获取回来的数据很大，那么需要存储在本地存储中，较少请求的次数
-          uni.setStorageSync("categoryList",{time:Date.now() ,categoryList:categoryList});
-          this.sliderList = categoryList.map((item) => item.cat_name);
-          this.productList = categoryList[0].children;
-        });
+      this.request({url:"/categories"})
+      .then(res=>{
+        // console.log(res);
+        categoryList = res;
+        // 因为获取回来的数据很大，那么需要存储在本地存储中，较少请求的次数
+        uni.setStorageSync("categoryList",{time:Date.now() ,categoryList:categoryList});
+        this.sliderList = categoryList.map((item) => item.cat_name);
+        this.productList = categoryList[0].children;
+      })
     },
     // 切换产品数据
     handleClick(index) {

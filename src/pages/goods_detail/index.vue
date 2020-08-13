@@ -13,8 +13,8 @@
     <!-- 描述 -->
     <view class="detail-meta">
       <view class="meta-title">{{detailList.goods_name}}</view>
-      <view class="meta-send">
-        <view class="iconfont icon-shoucang"></view>
+      <view class="meta-send" @click="isflag = !isflag">
+        <view class="iconfont icon-shoucang" :class="{active:isflag}"></view>
         <view class="send">收藏</view>
       </view>
     </view>
@@ -29,11 +29,13 @@
         <view class="footBox footBox-kefu">
             <view class="iconfont icon-kefu"></view>
             <view>客服</view>
+            <button open-type="contact">contact</button>
         </view>
         <!-- 分享 -->
         <view class="footBox footBox-share">
             <view class="iconfont icon-yixianshi-"></view>
             <view>分享</view>
+            <button open-type="share">share</button>
         </view>
         <!-- 购物车 -->
         <view class="footBox footBox-cart">
@@ -52,30 +54,37 @@
 export default {
   data() {
       return {
-        detailList:null
+        detailList:null,
+        isflag:false
       }
   },
   onLoad(options) {
     console.log(options);
     const id = options.id || '47869';
-    uni.request({
+    this.request({url:"/goods/detail",data:{goods_id: id}})
+    .then(res=>{
+        console.log(res);
+        this.detailList = res;
+    })
+    /* uni.request({
         url:"https://api-hmugo-web.itheima.net/api/public/v1/goods/detail",
         data: {
             goods_id:id
         }
     }).then(res=>{
-        console.log(res);
+        // console.log(res);
         this.detailList = res[1].data.message;
-    })
+    }) */
   },
   methods: {
+    // 预览图片
     previewImage(current){
         const urls=this.detailList.pics.map(v=>v.pics_mid);
         uni.previewImage({
             current,
             urls
         });
-    }
+    },
   }
 };
 </script>
@@ -97,7 +106,7 @@ export default {
         }
     }
     .detail-price {
-        padding-left: 10rpx;
+        padding: 10rpx;
         color: $jlg-theme-color;
         font-size: 36rpx;
     }
@@ -119,7 +128,9 @@ export default {
             align-items: center;
             justify-content: center;
             border-left: 1px solid ;
-            .iconfont {}
+            .active {
+                color: $jlg-theme-color;
+            }
             .send {
                 font-size: 30rpx;
             }
@@ -143,6 +154,7 @@ export default {
         height: 90rpx;
         display: flex;
         .footBox {
+            position: relative;
             flex: 1;
             font-size: 30rpx;
             display: flex;
@@ -150,6 +162,15 @@ export default {
             align-items: center;
             justify-content: center;
             padding: 10rpx 0;
+            button {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+                z-index: 100;
+            }
         }
         .footRight {
             flex: 2;

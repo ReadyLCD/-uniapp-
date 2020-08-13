@@ -105,23 +105,19 @@ export default {
     },
     // 获取商品列表数据
     getTotalList(isflag=false) {
-     return uni
-        .request({
-          url: "https://api-hmugo-web.itheima.net/api/public/v1/goods/search",
-          data: this.params,
-        })
-        .then((res) => {
-          // console.log(res);
-          let newTotalList = res[1].data.message.goods
+      return this.request({url:"/goods/search",data:this.params})
+      .then(res=>{
+        console.log(res);
+        let newTotalList = res.goods
           // 判断如果是下拉的话
           if(!isflag) {
             this.totalList = [...this.totalList,...newTotalList];
-            return Math.ceil(res[1].data.message.total/this.params.pagesize);
+            return Math.ceil(res.total/this.params.pagesize);
           } else {
             console.log("正在返回数据");
             return this.totalList = newTotalList;
           }
-        });
+      })
     },
     // 下拉刷新
     async scrollTop() {

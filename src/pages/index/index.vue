@@ -51,34 +51,29 @@ export default {
       mask:true
     })
 
-    Promise.all([this.getSlideList(),this.getGuideList(),this.getCategoryList()]).then(()=>{
-      uni.hideLoading();
-    })
+    Promise.all([this.getSlideList(),this.getGuideList(),this.getCategoryList()])
   },
   methods: {
     // 获取轮播图数据 返回值都是promise
     getSlideList() {
-     return uni.request({url:"https://api-hmugo-web.itheima.net/api/public/v1/home/swiperdata"})
-        .then((res) => {
-          // console.log(res);
-          this.slideList = res[1].data.message;
-        });
+      return this.request({url:"/home/swiperdata"})
+      .then(res=>{
+        this.slideList = res;
+      })
     },
     // 获取导航菜单数据
     getGuideList() {
-     return uni.request({url:"https://api-hmugo-web.itheima.net/api/public/v1/home/catitems"})
+      return this.request({url:"/home/catitems"})
       .then(res=>{
-        // console.log(res);
-        this.guideList = res[1].data.message;
+        this.guideList = res;
       })
     },
     // 获取分类栏目数据
     getCategoryList() {
-      return uni.request({url:"https://api-hmugo-web.itheima.net/api/public/v1/home/floordata"})
-       .then(res=>{
-        //  console.log(res);
-         this.categoryList = res[1].data.message;
-       })
+      return this.request({url:"/home/floordata"})
+      .then(res=>{
+        this.categoryList = res;
+      })
     }
   },
 };
