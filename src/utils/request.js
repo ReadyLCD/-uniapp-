@@ -12,7 +12,7 @@ const request = (config) => {
             ...config,
             url: baseUrl + config.url,
             success: (res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.data.meta.status == 200 && res.statusCode == 200) {
                     resolve(res.data.message);
                 }
@@ -21,7 +21,6 @@ const request = (config) => {
                 reject(err);
             },
             complete: () => {
-                console.log(123);
                 uni.hideLoading();
             }
         })

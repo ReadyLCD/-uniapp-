@@ -38,12 +38,12 @@
             <button open-type="share">share</button>
         </view>
         <!-- 购物车 -->
-        <view class="footBox footBox-cart">
+        <navigator open-type="switchTab" url="/pages/cart/index" class="footBox footBox-cart">
             <view class="iconfont icon-gouwuche"></view>
             <view>购物车</view>
-        </view>
+        </navigator>
         <!-- 加入购物车 -->
-        <view class="footBox-addCart footRight">加入购物车</view>
+        <view class="footBox-addCart footRight" @click="addCart(detailList.goods_id)">加入购物车</view>
         <!-- 立即购买 -->
         <view class="footBox-shop footRight">立即购买</view>
     </view>
@@ -63,18 +63,9 @@ export default {
     const id = options.id || '47869';
     this.request({url:"/goods/detail",data:{goods_id: id}})
     .then(res=>{
-        console.log(res);
+        console.log(res.pics);
         this.detailList = res;
     })
-    /* uni.request({
-        url:"https://api-hmugo-web.itheima.net/api/public/v1/goods/detail",
-        data: {
-            goods_id:id
-        }
-    }).then(res=>{
-        // console.log(res);
-        this.detailList = res[1].data.message;
-    }) */
   },
   methods: {
     // 预览图片
@@ -85,6 +76,40 @@ export default {
             urls
         });
     },
+    // 加入购物车
+    addCart(cartId) {
+    //    console.log("点击了购物车");
+    console.log(this.detailList);
+       const data= uni.getStorageSync("carts");
+       console.log(data);
+       if(!data.length) {
+          this.detailList.nums = 1;
+          this.detailList.check = true;
+          uni.setStorageSync("carts",[this.detailList]);
+          uni.showToast({
+              title:"加入购物车成功",
+              icon:"none",
+              mask:true
+          })
+       } else {
+          data.forEach(item=>{
+              if(item.goods_id == this.detailList.goods_id) {
+                  console.log(123);
+                  item.nums++;
+              } else {
+                  this.detailList.nums = 1;
+                  this.detailList.check = true;
+                  data.push(this.detailList);
+              }
+          })
+          uni.setStorageSync("carts",data);
+          uni.showToast({
+              title:"加入购物车成功",
+              icon:"none",
+              mask:true
+          })
+       }
+    }
   }
 };
 </script>
