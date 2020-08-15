@@ -21,7 +21,8 @@
     <!-- 内容 -->
     <view class="detail-content">
         <view class="cont-title">图文详情</view>
-        <rich-text :nodes="detailList.goods_introduce"></rich-text>
+        <!-- <rich-text :nodes="detailList.goods_introduce"></rich-text> -->
+        <rich-text :nodes="detailList.gsdht"></rich-text>
     </view>
     <!-- 底部 -->
     <view class="detail-footBox">
@@ -65,6 +66,7 @@ export default {
     .then(res=>{
         console.log(res.pics);
         this.detailList = res;
+        this.detailList.gsdht=this.detailList.goods_introduce.replace(/\.webp/g,".jpg");
     })
   },
   methods: {
@@ -78,11 +80,8 @@ export default {
     },
     // 加入购物车
     addCart(cartId) {
-    //    console.log("点击了购物车");
-    console.log(this.detailList);
-       const data= uni.getStorageSync("carts");
-       console.log(data);
-       if(!data.length) {
+       const carts= uni.getStorageSync("carts");
+       if(!carts.length) {
           this.detailList.nums = 1;
           this.detailList.check = true;
           uni.setStorageSync("carts",[this.detailList]);
@@ -92,17 +91,15 @@ export default {
               mask:true
           })
        } else {
-          data.forEach(item=>{
-              if(item.goods_id == this.detailList.goods_id) {
-                  console.log(123);
-                  item.nums++;
-              } else {
-                  this.detailList.nums = 1;
-                  this.detailList.check = true;
-                  data.push(this.detailList);
-              }
-          })
-          uni.setStorageSync("carts",data);
+         const index = carts.findIndex(item=>item.goods_id === this.detailList.goods_id)
+         if(index===-1) {
+            this.detailList.nums = 1;
+            this.detailList.check = true;
+            carts.push(this.detailList);
+         } else {
+           this.detailList.nums++;
+         }
+          uni.setStorageSync("carts",carts);
           uni.showToast({
               title:"加入购物车成功",
               icon:"none",

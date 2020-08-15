@@ -31,6 +31,12 @@
 			}
 		},
 		{
+			"path": "pages/order/index",
+			"style": {
+				"navigationBarTitleText": "订单支付"
+			}
+		},
+		{
 			"path": "pages/user/index",
 			"style": {
 				"navigationBarTitleText": "我的"

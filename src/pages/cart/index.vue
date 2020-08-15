@@ -51,7 +51,9 @@
         <view class="money">合计:<text>￥{{totalMoney}}</text></view>
         <view class="about">包含运费</view>
       </view>
-      <view class="payMoney">结算({{allCates}})</view>
+      <view class="payMoney" @click="toPayPage">
+           结算({{allCates}})
+      </view>
     </view>
   </view>
 </template>
@@ -172,12 +174,12 @@ export default {
         uni.showModal({
            title: '提示',
            content: '亲，是否要删除该商品？',
-           success: (result) => {
-             console.log(result);
-             if(result.confirm) {
+           success:res=> {
+            //  console.log(res);
+             if(res.confirm) {
                this.carts.splice(index,1);
              }
-           },
+           }
          })
       } else {
         this.carts[index].nums +=unit;
@@ -185,6 +187,19 @@ export default {
     },
     addNum(unit,index) {
       this.carts[index].nums +=unit;
+    },
+    // 跳转到支付页
+    toPayPage() {
+      let isflag = this.carts.every(item=>item.check);
+      if(!this.allCates || !this.address.userName) {
+         uni.showToast({
+           title:"你的购物车还没选中产品或者收货地址没设置",
+           icon:"none"
+         })
+         return;
+      } else {
+        uni.navigateTo({url:"/pages/order/index"});
+      }
     }
   },
 };
@@ -192,7 +207,11 @@ export default {
 
 <style lang="scss">
 .cartList {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   .cartAddress {
+    height: 96rpx;
     padding: 20rpx;
     .address {
       display: flex;
@@ -217,13 +236,22 @@ export default {
     }
   }
   .cart {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     .title {
-      padding: 30rpx;
+      height: 78rpx;
+      line-height: 78rpx;
+      padding-left: 20rpx;
       color: $jlg-theme-color;
       border-top: 1px solid currentColor;
       border-bottom: 1px solid currentColor;
     }
     .listBox {
+      flex: 1;
+      overflow: auto;
+      padding-bottom: 85rpx;
       .list-item {
         display: flex;
         padding: 10rpx;
@@ -287,6 +315,7 @@ export default {
       width: 100%;
       height: 90rpx;
       border-top: 1px solid #666;
+      background-color: #fff;
       checkbox-group {
          flex: 2;
          margin-left: 10rpx;
