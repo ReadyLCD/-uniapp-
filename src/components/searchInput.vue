@@ -1,11 +1,17 @@
 <template>
   <view class="search-swapper">
-    <navigator>搜索</navigator>
+    <navigator url="/pages/search/index">搜索</navigator>
   </view>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    handleClick(path) {
+      this.$emit("clicked", path);
+    },
+  },
+};
 </script>
 
 <style lang="scss">

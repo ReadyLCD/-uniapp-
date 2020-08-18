@@ -12,7 +12,7 @@ const request = (config) => {
             ...config,
             url: baseUrl + config.url,
             success: (res) => {
-                // console.log(res);
+                console.log(res);
                 if (res.data.meta.status == 200 && res.statusCode == 200) {
                     resolve(res.data.message);
                 }
