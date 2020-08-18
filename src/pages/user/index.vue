@@ -61,8 +61,9 @@
         </view>
         <navigator class="list">意见反馈</navigator>
         <navigator class="list">关于我们</navigator>
-        <view class="list" @click="cancelLogin">退出登录</view>
+        <button class="list" open-type="share">把应用推荐给其他人</button>
       </view>
+      <view class="outLogin" @click="cancelLogin">退出登录</view>
     </view>
   </view>
 </template>
@@ -236,6 +237,13 @@ export default {
           text-align: right;
         }
       }
+    }
+    .outLogin{
+      margin: 20rpx 0;
+      padding: 15rpx;
+      text-align: center;
+      background-color: $jlg-theme-color;
+      color: #fff;
     }
   }
 }
